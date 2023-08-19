@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import rootReducer from "../redux/reducers";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API from "../const/endpoint";
+import { regisAction } from "../redux/actions/regisAction";
 
 const Register = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,12 +29,8 @@ const Register = () => {
             password: password,
             role: 'Admin',
         }
-        axios
-            .post(API.REGISTER, payload)
-            .then((res) => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err))
+        // console.log(payload)
+        dispatch(regisAction(payload))
     }
 
     return (
@@ -42,6 +40,10 @@ const Register = () => {
             <input placeholder="Email" onChange={handleEmail} />
             <input placeholder="Password" onChange={handlePassword} />
             <button onClick={handleRegister}>Register</button>
+            {
+                regisReducer.message.length ? 
+                    <h1>{regisReducer.message}</h1> : <h1></h1>
+            }
         </div>
     );
 };
