@@ -5,6 +5,7 @@ import rootReducer from "../redux/reducers";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API from "../const/endpoint";
+import { useEffect } from "react";
 import { regisAction } from "../redux/actions/regisAction";
 
 const Register = () => {
@@ -31,6 +32,20 @@ const Register = () => {
         }
         // console.log(payload)
         dispatch(regisAction(payload))
+    }
+
+    // Reidirect function
+    useEffect(() => {
+        handleRedirect()
+    }, [regisReducer.message])
+        // watch and changes the state [regisReducer.message]
+    
+    const handleRedirect = () => {
+        setTimeout(() => {
+            if(!!regisReducer.message.length) {
+                navigate('/login')
+            }
+        }, 2000);
     }
 
     return (
